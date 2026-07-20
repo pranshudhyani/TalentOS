@@ -1,0 +1,6 @@
+# Application-wide constants
+DEFAULT_PAGE_SIZE = 20
+MAX_PAGE_SIZE = 100
+
+SUPPORTED_RESUME_EXTENSIONS = [".pdf", ".docx", ".txt"]
+VECTOR_EMBEDDING_DIMENSION = 1536
