@@ -1,17 +1,38 @@
 from fastapi import FastAPI
+from app.config.settings import settings
+from app.config.logging import setup_logging
+from app.middleware.cors import setup_cors
+from app.middleware.logging import RequestLoggingMiddleware
+from app.api import health_router
 
+# Initialize application logging configuration
+setup_logging()
+
+# Initialize FastAPI application with settings metadata
 app = FastAPI(
-    title="TalentOS API Engine",
-    version="0.1.0",
-    description="Backend API services for TalentOS AI Platform"
+    title=settings.PROJECT_NAME,
+    version=settings.VERSION,
+    description="TalentOS AI Talent Platform API Engine",
+    docs_url="/docs",
+    redoc_url="/redoc",
 )
 
+# Attach Middlewares
+setup_cors(app)
+app.add_middleware(RequestLoggingMiddleware)
 
-@app.get("/")
+
+# Root Endpoint
+@app.get("/", summary="Root Welcome Endpoint", tags=["Root"])
 def read_root():
-    return {"status": "online", "system": "TalentOS Engine", "version": "0.1.0"}
+    """Welcome endpoint returning API metadata and navigational links."""
+    return {
+        "message": f"Welcome to {settings.PROJECT_NAME}",
+        "version": settings.VERSION,
+        "docs": "/docs",
+        "health": "/health",
+    }
 
 
-@app.get("/health")
-def health_check():
-    return {"status": "healthy"}
+# Mount API Routers
+app.include_router(health_router)
