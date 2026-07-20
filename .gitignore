@@ -1,0 +1,27 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Node modules / frontend build
+node_modules/
+.next/
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+
+# Virtual environments
+.venv/
+env/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
