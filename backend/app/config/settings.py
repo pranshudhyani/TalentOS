@@ -1,24 +1,28 @@
-import os
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "TalentOS API Engine"
-    VERSION: str = "0.1.0"
+
+    PROJECT_NAME: str = "TalentOS"
+
+    VERSION: str = "1.0.0"
+
+    ENV: str = "development"
+
     API_V1_STR: str = "/api/v1"
 
-    ENV: str = os.getenv("ENV", "development")
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "supersecretkey123")
-    DATABASE_URL: str = os.getenv(
-        "DATABASE_URL", "postgresql://user:password@localhost:5432/talentos_db"
+    SECRET_KEY: str
+
+    DATABASE_URL: str
+
+    REDIS_URL: str
+
+    OPENAI_API_KEY: str = ""
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        case_sensitive=True,
     )
-    REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379/0")
-
-    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
-
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
 
 
 settings = Settings()

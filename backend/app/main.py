@@ -30,9 +30,10 @@ def read_root():
         "message": f"Welcome to {settings.PROJECT_NAME}",
         "version": settings.VERSION,
         "docs": "/docs",
-        "health": "/health",
+        "health": f"{settings.API_V1_STR}/health",
     }
 
 
 # Mount API Routers
-app.include_router(health_router)
+app.include_router(health_router,
+prefix= settings.API_V1_STR)
