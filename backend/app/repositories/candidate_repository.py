@@ -17,6 +17,8 @@ class CandidateRepository:
             phone=candidate.phone,
             years_of_experience=candidate.years_of_experience,
             skills=candidate.skills,
+            linkedin_url=str(candidate.linkedin_url) if candidate.linkedin_url else None,
+            github_url=str(candidate.github_url) if candidate.github_url else None,
         )
 
         self.db.add(db_candidate)
@@ -48,11 +50,13 @@ class CandidateRepository:
         if not db_candidate:
             return None
 
-        db_candidate.name = candidate.name
-        db_candidate.email = candidate.email
-        db_candidate.phone = candidate.phone
-        db_candidate.years_of_experience = candidate.years_of_experience
-        db_candidate.skills = candidate.skills
+        update_data = candidate.model_dump(
+            exclude_unset=True,
+            mode="json"
+        )
+
+        for key, value in update_data.items():
+            setattr(db_candidate, key, value)
 
         self.db.commit()
         self.db.refresh(db_candidate)

@@ -1,5 +1,6 @@
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, HttpUrl
+from typing import List
 
 
 class CandidateCreate(BaseModel): # used when the client send data 
@@ -23,23 +24,11 @@ class CandidateCreate(BaseModel): # used when the client send data
 
     skills: list[str] = Field(
         min_length=1,
-    )
+        )
 
-    email: EmailStr
+    linkedin_url: HttpUrl | None = None
 
-    phone: str = Field(
-        min_length=10,
-        max_length=15,
-    )
-
-    years_of_experience: int = Field(
-        ge=0,
-        le=50,
-    )
-
-    skills: list[str] = Field(
-        min_length=1,
-    )
+    github_url: str | None = None
 
 
 
@@ -47,9 +36,12 @@ class CandidateResponse(CandidateCreate):  # Used for sending responses back fro
     id: int
 
 
+
 class CandidateUpdate(BaseModel):
-    name: str | None = None
-    email: str | None = None
-    phone: str | None = None
-    years_of_experience: int | None = None
-    skills: list[str] | None = None
+    name: str
+    email: EmailStr
+    phone: str
+    years_of_experience: int
+    skills: List[str]
+    linkedin_url: HttpUrl | None = None
+    github_url: str | None = None
