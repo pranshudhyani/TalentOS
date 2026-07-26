@@ -5,6 +5,7 @@ from app.middleware.cors import setup_cors
 from app.middleware.logging import RequestLoggingMiddleware
 from app.api import health_router
 from app.exceptions.handlers import register_exception_handlers
+from app.api import job
 
 # Initialize application logging configuration
 setup_logging()
@@ -45,6 +46,7 @@ prefix= settings.API_V1_STR)
 from app.api import (
     health_router,
     candidate_router,
+    application_router,
 )
 
 app.include_router(
@@ -54,5 +56,15 @@ app.include_router(
 
 app.include_router(
     candidate_router,
+    prefix=settings.API_V1_STR,
+)
+
+app.include_router(
+    job.router,
+    prefix=settings.API_V1_STR,
+)
+
+app.include_router(
+    application_router,
     prefix=settings.API_V1_STR,
 )

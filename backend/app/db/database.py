@@ -19,9 +19,8 @@ SessionLocal = sessionmaker(
 )
 
 
-# Base class for ORM models
-class Base(DeclarativeBase):
-    pass
+from app.db.base import Base
+
 
 
 # Dependency for API routes

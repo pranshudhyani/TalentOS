@@ -1,5 +1,6 @@
 from sqlalchemy import Integer, String, JSON    
 from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import relationship
 
 from app.db.base import Base
 
@@ -36,3 +37,9 @@ class Candidate(Base):
         String(255),
         nullable=True,
     )
+
+    applications = relationship(
+    "Application",
+    back_populates="candidate",
+    cascade="all, delete-orphan",
+)
