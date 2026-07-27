@@ -33,6 +33,10 @@ jobs:
 
       - name: Verify Imports
         working-directory: backend
+        env:
+          SECRET_KEY: super-secret-key
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/talentos_db
+          REDIS_URL: redis://localhost:6379/0
         run: |
           uv run python -c "from app.main import app; print('Application imports successfully')"
 
