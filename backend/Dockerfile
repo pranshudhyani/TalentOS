@@ -3,7 +3,16 @@ FROM python:3.11-slim
 WORKDIR /app
 
 COPY pyproject.toml /app/
-RUN pip install --no-cache-dir fastapi uvicorn pydantic
+
+RUN pip install --no-cache-dir \
+    fastapi \
+    "uvicorn[standard]" \
+    pydantic \
+    pydantic-settings \
+    sqlalchemy \
+    psycopg2-binary \
+    python-dotenv \
+    email-validator
 
 COPY ./app /app/app
 

@@ -1,0 +1,38 @@
+name: TalentOS Backend CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  backend-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Install Dependencies
+        run: uv sync
+
+      - name: Verify Imports
+        run: |
+          uv run python -c "from app.main import app; print('Application imports successfully')"
+
+      - name: Build Docker Image
+        run: docker build -t talentos-api .
